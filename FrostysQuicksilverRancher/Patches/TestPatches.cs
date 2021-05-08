@@ -11,9 +11,9 @@ namespace FrostysQuicksilverRancher.Patches
 {
     [HarmonyPatch(typeof(QuicksilverPlortCollector))]
     [HarmonyPatch("Update")]
-    unsafe public static class QuicksilverPlortCollectorPatch
+    public static class QuicksilverPlortCollectorPatch
     {
-        unsafe public static bool Prefix(QuicksilverPlortCollector __instance)
+        public static bool Prefix(QuicksilverPlortCollector __instance)
         {
             if (__instance.timeDirector.HasReached(__instance.timer))
             {
@@ -29,9 +29,9 @@ namespace FrostysQuicksilverRancher.Patches
 
     [HarmonyPatch(typeof(QuicksilverEnergyGenerator))]
     [HarmonyPatch("SetState")]
-    unsafe public static class TestPatches
+    public static class TestPatches
     {
-        unsafe public static bool Prefix(QuicksilverEnergyGenerator __instance, QuicksilverEnergyGenerator.State state, bool enableSFX)
+        public static bool Prefix(QuicksilverEnergyGenerator __instance, QuicksilverEnergyGenerator.State state, bool enableSFX)
         {
             Console.Log("Parameters are: " + state + " and " + enableSFX);
             Destroyer.Destroy(__instance.countdownUI, "QuicksilverEnergyGenerator.SetState");
