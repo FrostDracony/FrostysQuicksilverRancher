@@ -1,5 +1,4 @@
 ﻿using Configs;
-using SRML.Console;
 using HarmonyLib;
 using FrostysQuicksilverRancher.Other;
 

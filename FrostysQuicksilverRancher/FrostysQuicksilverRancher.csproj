@@ -69,6 +69,7 @@
     <Compile Include="Patches\VacPatch.cs" />
     <Compile Include="Patches\ZonePatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Console.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="modinfo.json" />
