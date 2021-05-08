@@ -25,30 +25,34 @@ namespace FrostysQuicksilverRancher.Other
                 Console.LogError("Incorrect amount of arguments!", true);
                 return false;
             }
-            bool flag = SRSingleton<SceneContext>.Instance.PlayerState.HasUpgrade(Ids.MOCHI_HACK);
-            if (flag)
+
+            if (SRSingleton<SceneContext>.Instance.PlayerState.HasUpgrade(Ids.MOCHI_HACK))
             {
                 Console.Log("Changed Vacpack renderer mode to: " + args[0], true);
+
                 if (args[0].ToLower() == "automatic")
                 {
                     Console.Log("Not implemented yet");
                     return true;
                 }
-                if (System.Enum.TryParse(args[0], out VACPACK_ENUMS vACPACK))
+
+                if (System.Enum.TryParse(args[0], out VACPACK_ENUMS VACPACK))
                 {
-                    PlayerState.AmmoMode ammoMode = (vACPACK == VACPACK_ENUMS.NIMBLE_VALLEY) ? PlayerState.AmmoMode.NIMBLE_VALLEY : PlayerState.AmmoMode.DEFAULT;
+                    PlayerState.AmmoMode ammoMode = (VACPACK == VACPACK_ENUMS.NIMBLE_VALLEY) ?
+                            PlayerState.AmmoMode.NIMBLE_VALLEY :
+                            PlayerState.AmmoMode.DEFAULT;
+
                     UnityEngine.GameObject.FindObjectOfType<VacDisplayChanger>().SetDisplayMode(ammoMode);
                 }
 
-                //foreach (VACPACK_ENUMS vacPACK in System.Enum.GetValues(typeof(VACPACK_ENUMS))) {}
-
+                //foreach (VACPACK_ENUMS vac in System.Enum.GetValues(typeof(VACPACK_ENUMS))) {}
             }
             else
             {
                 Console.Log("You have to first have bought the \"Gate Hack\" upgrade, else you can't use this command");
             }
-            return true;
 
+            return true;
         }
 
         // A list that the autocomplete references from. You must return a List<string>.

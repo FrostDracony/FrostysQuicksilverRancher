@@ -8,8 +8,7 @@ namespace FrostysQuicksilverRancher.Patches
 	{
 		public static void Postfix(ZoneDirector.Zone zone)
 		{
-			bool flag = zone == ZoneDirector.Zone.MOCHI_RANCH;
-			if (flag)
+			if (zone == ZoneDirector.Zone.MOCHI_RANCH)
 			{
 				SRSingleton<SceneContext>.Instance.PlayerState.CheckAllUpgradeLockers();
 			}
