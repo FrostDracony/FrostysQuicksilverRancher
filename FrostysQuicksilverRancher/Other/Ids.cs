@@ -6,5 +6,6 @@ namespace FrostysQuicksilverRancher.Other
     public static class Ids
     {
         public static readonly PlayerState.Upgrade MOCHI_HACK;
+        public static readonly Gadget.Id ELECTRIC_STORAGE;
     }
 }
