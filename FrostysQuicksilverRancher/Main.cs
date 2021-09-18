@@ -21,6 +21,7 @@ namespace FrostysQuicksilverRancher
         public override void PreLoad()
         {
             HarmonyInstance.PatchAll();
+
             SaveRegistry.RegisterDataParticipant<PlortUndisappearifier>();
             //SaveRegistry.RegisterDataParticipant<MochiWarning>();
         }
