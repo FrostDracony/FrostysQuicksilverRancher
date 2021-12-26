@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using SRML.Console;
 using MonomiPark.SlimeRancher.DataModel;
+using DG.Tweening;
 
 namespace FrostysQuicksilverRancher.Components
 {
-    public class ElectricStorage : SRBehaviour, GadgetModel.Participant
+    public class ElectricStorage : SRBehaviour, GadgetModel.Participant, GadgetInteractor
 	{
 		// Token: 0x06000001 RID: 1 RVA: 0x00002050 File Offset: 0x00000250
 		public void Awake()
@@ -60,10 +61,22 @@ namespace FrostysQuicksilverRancher.Components
 			UpdateVisuals();
 		}
 
+		public void DecrementBasicCharge(int amount = 1)
+        {
+			model.basicChargeAmount -= amount;
+			bool flag = model.basicChargeAmount < 0f;
+			if (flag)
+			{
+				model.basicChargeAmount = 0f;
+			}
+			UpdateVisuals();
+		}
+
 		// Token: 0x06000004 RID: 4 RVA: 0x00002263 File Offset: 0x00000463
 		public void InitModel(GadgetModel model)
 		{
 		}
+
 
 		// Token: 0x06000005 RID: 5 RVA: 0x00002266 File Offset: 0x00000466
 		public void SetModel(GadgetModel model)
@@ -72,8 +85,37 @@ namespace FrostysQuicksilverRancher.Components
 			UpdateVisuals();
 		}
 
-		// Token: 0x04000001 RID: 1
-		GameObject sphere;
+        public void OnInteract()
+        {
+			if (model.basicChargeAmount <= 0)
+				return;
+			Console.Log("Charge: ");
+			DecrementBasicCharge();
+			Expel(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.VALLEY_AMMO_1));
+			//InstantiateActor(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.VALLEY_AMMO_1), SceneContext.Instance.RegionRegistry.GetCurrentRegionSetId(), transform.Find("Sphere").position + new Vector3(0, 0, -3), Quaternion.identity);
+        }  
+
+        public bool CanInteract()
+        {
+			if (model.basicChargeAmount > 0)
+				return true;
+			return false;
+        }
+
+		void Expel(GameObject toExpel)
+        {
+			WeaponVacuum weaponVacuum = FindObjectOfType<WeaponVacuum>();
+			
+			GameObject gameObject = InstantiateActor(toExpel, weaponVacuum.regionRegistry.GetCurrentRegionSetId(), transform.Find("Sphere").position + new Vector3(0, 0, -3), Quaternion.identity, false);
+			gameObject.transform.LookAt(weaponVacuum.transform);
+			PhysicsUtil.RestoreFreezeRotationConstraints(gameObject);
+			
+			gameObject.transform.DOScale(gameObject.transform.localScale, 0.1f).From(gameObject.transform.localScale * 0.2f, true).SetEase(Ease.Linear);
+			gameObject.GetComponent<Vacuumable>().Launch(Vacuumable.LaunchSource.PLAYER);
+		}
+
+        // Token: 0x04000001 RID: 1
+        GameObject sphere;
 
 		// Token: 0x04000002 RID: 2
 		Material shockedMaterial;
