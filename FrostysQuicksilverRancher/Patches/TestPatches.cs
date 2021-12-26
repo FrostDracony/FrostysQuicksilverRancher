@@ -12,28 +12,49 @@ namespace FrostysQuicksilverRancher.Patches
 {
 	[HarmonyPatch(typeof(QuicksilverPlortCollector))]
 	[HarmonyPatch("Update")]
-	unsafe public static class QuicksilverPlortCollectorPatch
-    {
-		unsafe public static bool Prefix(QuicksilverPlortCollector __instance)
+	public static class QuicksilverPlortCollectorUpdatePatch
+	{
+		public static bool Prefix(QuicksilverPlortCollector __instance)
         {
 			if (__instance.timeDirector.HasReached(__instance.timer))
             {
-				bool isInMochiZone = __instance.GetComponent<RegionMember>().IsInZone(ZoneDirector.Zone.MOCHI_RANCH);
-				////Console.Log("isInMochiZone: " + isInMochiZone);
-				bool isInValleyZone = __instance.GetComponent<RegionMember>().IsInZone(ZoneDirector.Zone.VALLEY);
-				////Console.Log("isInValleyZone: " + isInValleyZone);
-				return isInMochiZone || isInValleyZone;
-			}
-			else { return false; }
+				if (SRSingleton<SceneContext>.Instance.PlayerState.HasUpgrade(Ids.MOCHI_HACK))
+				{
+					bool isInMochiZone = __instance.GetComponent<RegionMember>().IsInZone(ZoneDirector.Zone.MOCHI_RANCH);
+					Console.Log("isInMochiZone: " + isInMochiZone);
+					bool isInValleyZone = __instance.GetComponent<RegionMember>().IsInZone(ZoneDirector.Zone.VALLEY);
+					Console.Log("isInValleyZone: " + isInValleyZone);
 
+					if (isInMochiZone || isInValleyZone)
+					{
+						Ammo ammo = SceneContext.Instance.PlayerState.ammoDict[PlayerState.AmmoMode.DEFAULT];
+						Identifiable component = __instance.GetComponent<Identifiable>();
+						Console.Log("Test to see if the game allows the addition");
+						if (ammo.MaybeAddToSlot(component.id, component))
+						{
+							Console.Log("SUCCESS!");
+							if (__instance.destroyFX != null)
+							{
+								SRBehaviour.SpawnAndPlayFX(__instance.destroyFX, __instance.transform.position, Quaternion.identity);
+							}
+							SECTR_AudioSystem.Play(__instance.onCollectionCue, __instance.transform.position, false);
+							Destroyer.DestroyActor(__instance.gameObject, "QuicksilverPlortCollector.Update", false);
+							__instance.pediaDirector.MaybeShowPopup(component.id);
+						}
+						return true;
+					}
+				} else { return false; }
+			}
+
+			return true;
 		}
     }
 
 	[HarmonyPatch(typeof(QuicksilverEnergyGenerator))]
     [HarmonyPatch("SetState")]
-    unsafe public static class TestPatches
-    {
-        unsafe public static bool Prefix(QuicksilverEnergyGenerator __instance, QuicksilverEnergyGenerator.State state, bool enableSFX)
+    public static class QuicksilverEnergyGeneratorSetStatePatch
+	{
+        public static bool Prefix(QuicksilverEnergyGenerator __instance, QuicksilverEnergyGenerator.State state, bool enableSFX)
         {
             //Console.Log("Parameters are: " + state + " and " + enableSFX);
 			Destroyer.Destroy(__instance.countdownUI, "QuicksilverEnergyGenerator.SetState");

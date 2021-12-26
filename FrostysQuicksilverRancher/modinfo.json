@@ -3,6 +3,6 @@
 	"name": "Frosty's Quicksilver Rancher",
 	"author": "FrostDracony (Main developer), MegaPiggy (helped me a lot to do this mod)",
 	"description": "A Mod allowing you to ranch quicksilver slimes in Slime Rancher",
-	"version": "1.0",
-	"load_after": [ "quicksilver_rancher" ]
+	"version": "1.1",
+	"load_after": [ "quicksilver_rancher", "more_vaccing" ]
 }

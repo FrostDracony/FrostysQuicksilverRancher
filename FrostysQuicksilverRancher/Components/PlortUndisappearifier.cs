@@ -12,7 +12,7 @@ namespace FrostysQuicksilverRancher.Components
 			bool flag = component;
 			if (flag)
 			{
-				UnityEngine.Object.Destroy(component);
+				Destroy(component);
 			}
 		}
 

@@ -15,7 +15,7 @@ namespace FrostysQuicksilverRancher.Patches
 			if (flag)
 			{
 				if (Values.VACPACK == VACPACK_ENUMS.AUTOMATIC)
-					GameObject.FindObjectOfType<VacDisplayChanger>().SetDisplayMode(PlayerState.AmmoMode.NIMBLE_VALLEY);
+					Object.FindObjectOfType<VacDisplayChanger>().SetDisplayMode(PlayerState.AmmoMode.NIMBLE_VALLEY);
 				return false;
 			}
 			else { return true; }

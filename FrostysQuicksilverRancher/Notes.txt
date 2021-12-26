@@ -1,0 +1,1 @@
+﻿QuicksilverAmmoReplacer - Serves to replace the normal ammo with the one in the Nimble Valley.
