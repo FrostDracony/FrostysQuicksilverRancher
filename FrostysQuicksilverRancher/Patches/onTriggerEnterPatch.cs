@@ -2,6 +2,7 @@
 using HarmonyLib;
 using UnityEngine;
 using FrostysQuicksilverRancher.Other;
+using SRML.Console;
 
 namespace FrostysQuicksilverRancher.Patches
 {

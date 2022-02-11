@@ -24,7 +24,7 @@ namespace FrostysQuicksilverRancher.Components
         {
             if(timeDir.HasReached(endingDay)) //If it's time to end this conflict
             {
-                Console.Log("Ending the Conflict");
+                //Console.Log("Ending the Conflict");
                 EndingTheConflict();
             }
 
@@ -32,7 +32,7 @@ namespace FrostysQuicksilverRancher.Components
 
         public void ReadData(CompoundDataPiece piece)
         {
-            Console.Log("Reading the Data");
+            //Console.Log("Reading the Data");
             //Setting the fields
             warning = piece.GetValue<int>("Mochi's Warnings");
             endingDay = piece.GetValue<double>("Mochi's WarningEnd");
@@ -41,7 +41,7 @@ namespace FrostysQuicksilverRancher.Components
 
         public void WriteData(CompoundDataPiece piece)
         {
-            Console.Log("Writing the Data");
+            //Console.Log("Writing the Data");
             //Writing the data that's going to get stored
             piece.SetValue("Mochi's Warnings", warning);
             piece.SetValue("Mochi's WarningEnd", endingDay);
@@ -52,7 +52,7 @@ namespace FrostysQuicksilverRancher.Components
         {
             if ( (warning + 1) >= 3) //if this is going to be the 4th warning
             {
-                Console.Log("Mochi is VERY angry at you");
+                //Console.Log("Mochi is VERY angry at you");
                 mailDir.SendMail(MailDirector.Type.PERSONAL, "quicksilver_stolen_war"); //Send the conflict mail
                 endingDay = timeDir.HoursFromNow(24 * 1); //Start the conflict from now on
                 return; //Dont proceed with the code

@@ -7,13 +7,7 @@ namespace FrostysQuicksilverRancher.Components
 {
 	public class ElectricStorageModel : GadgetModel, ISerializableModel
 	{
-		int Version
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		private int Version => 0;
 
 		public ElectricStorageModel(Gadget.Id ident, string siteId, Transform transform) : base(ident, siteId, transform)
 		{
@@ -21,19 +15,16 @@ namespace FrostysQuicksilverRancher.Components
 
 		public void LoadData(BinaryReader reader)
 		{
-			basicChargeAmount = reader.ReadSingle();
-			advancedChargeAmount = reader.ReadSingle();
+			reader.ReadInt32();
+			chargeAmount = reader.ReadSingle();
 		}
 
 		public void WriteData(BinaryWriter writer)
 		{
 			writer.Write(Version);
-			writer.Write(basicChargeAmount);
-			writer.Write(advancedChargeAmount);
+			writer.Write(chargeAmount);
 		}
 
-		public float basicChargeAmount;
-
-		public float advancedChargeAmount;
+		public float chargeAmount;
 	}
 }

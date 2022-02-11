@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Collections.Generic;
 using System.Linq;
 using FrostysQuicksilverRancher.Components;
 using FrostysQuicksilverRancher.Other;
@@ -11,18 +12,30 @@ using SRML.SR.SaveSystem;
 using SRML.SR.Translation;
 using SRML.Utils;
 using UnityEngine;
+using HarmonyLib;
 
 namespace FrostysQuicksilverRancher
 {
     public class Main : ModEntryPoint
     {
-        public static AssetBundle assetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(typeof(Main), "quicksilverrancher"));
+        public static AssetBundle assetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(typeof(Main), "quicksilverrancherold"));
+        public static AssetBundle newAssetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(typeof(Main), "quicksilver_rancher"));
 
         public override void PreLoad()
         {
+            void MoreVaccables()
+            {
+                var sstAssembly = SRModLoader.GetMod("more_vaccing").EntryType.Assembly;
+                var Main = sstAssembly.GetType("MoreVaccing.Main", false, true);
+                var stuffToPatch = (Dictionary<Identifiable.Id, Color>)Main.GetField("stuffToPatch", AccessTools.all).GetValue(null);
+                stuffToPatch.Remove(Identifiable.Id.QUICKSILVER_SLIME);
+            }
+
+            if (SRModLoader.IsModPresent("more_vaccing")) MoreVaccables();
+
             HarmonyInstance.PatchAll();
 
-            SaveRegistry.RegisterDataParticipant<PlortUndisappearifier>();
+            //SaveRegistry.RegisterDataParticipant<PlortUndisappearifier>();
             //SaveRegistry.RegisterDataParticipant<MochiWarning>();
         }
 
@@ -77,20 +90,22 @@ namespace FrostysQuicksilverRancher
                     return model != null && model.HasProgress(ProgressDirector.ProgressType.UNLOCK_MOCHI_MISSIONS);
                 }, 1f));
 
-                GameObject elecStorage = assetBundle.LoadAsset<GameObject>("gadgetElectricStorage");
+                GameObject elecStorage = newAssetBundle.LoadAsset<GameObject>("GeneratorPrefab");
                 GadgetDefinition gadgetDefinition = GameContext.Instance.LookupDirector.GetGadgetDefinition(Gadget.Id.EXTRACTOR_DRILL_NOVICE);
-                foreach(MeshRenderer renderer in gadgetDefinition.prefab.GetComponentsInChildren<MeshRenderer>())
+                /*foreach(MeshRenderer renderer in gadgetDefinition.prefab.GetComponentsInChildren<MeshRenderer>())
                 {
-                    Console.Log("Renderer: " + renderer);
+                    //Console.Log("Renderer: " + renderer);
                     foreach (Material material in renderer.sharedMaterials)
-                        Console.Log("Shader: " + material.shader);
-                    Console.Log(renderer.sharedMaterial.shader.name);
-                }
+                        //Console.Log("Shader: " + material.shader);
+                    //Console.Log(renderer.sharedMaterial.shader.name);
+                }*/
                 elecStorage.AddComponent<Gadget>().GetCopyOf(gadgetDefinition.prefab.GetComponent<Gadget>());
 
                 PrefabUtils.ReplaceFieldsWith(elecStorage, Gadget.Id.EXTRACTOR_DRILL_NOVICE, Ids.ELECTRIC_STORAGE);
-                elecStorage.AddComponent<ElectricStorage>();
-                elecStorage.transform.Find("Sphere").gameObject.AddComponent<ElectricStorageTrigger>();
+                //elecStorage.AddComponent<ElectricStorage>();
+                //elecStorage.transform.Find("ball").gameObject.AddComponent<ElectricStorageTrigger>();
+                elecStorage.transform.Find("ball").gameObject.AddComponent<ElectricStorager>();
+
                 LookupRegistry.RegisterGadget(new GadgetDefinition
                 {
                     prefab = elecStorage,
@@ -98,6 +113,7 @@ namespace FrostysQuicksilverRancher
                     pediaLink = PediaDirector.Id.UTILITIES,
                     blueprintCost = 1000,
                     buyCountLimit = 10,
+                    icon = GameContext.Instance.LookupDirector.GetGadgetDefinition(Gadget.Id.TELEPORTER_PINK).icon,
                     craftCosts = new GadgetDefinition.CraftCost[]
                     {
                         new GadgetDefinition.CraftCost
@@ -116,6 +132,15 @@ namespace FrostysQuicksilverRancher
                 SaveRegistry.RegisterSerializableGadgetModel<ElectricStorageModel>(0);
                 DataModelRegistry.RegisterCustomGadgetModel(Ids.ELECTRIC_STORAGE, typeof(ElectricStorageModel));
                 GadgetRegistry.RegisterBlueprintLock(Ids.ELECTRIC_STORAGE, (GadgetDirector x) => x.CreateBasicLock(Ids.ELECTRIC_STORAGE, Gadget.Id.NONE, 1));
+
+                //GameObject tarrObject = PrefabUtils.CopyPrefab(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.TARR_SLIME));
+                GameObject tarrObject = GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.TARR_SLIME);
+                GameObject fashionPod = PrefabUtils.CopyPrefab(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.ROYAL_FASHION));
+                //tarrObject.GetComponent<Identifiable>().id = Ids.TASERR_SLIME;
+                AttachFashions attachFashions = tarrObject.AddComponent<AttachFashions>();
+                attachFashions.Attach(fashionPod.GetComponent<Fashion>());
+
+                GameObject.Destroy(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.QUICKSILVER_PLORT).GetComponent<QuicksilverPlortCollector>());
             }
             else
             {

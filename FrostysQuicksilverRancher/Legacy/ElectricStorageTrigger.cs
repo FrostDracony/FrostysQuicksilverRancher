@@ -87,7 +87,7 @@ namespace FrostysQuicksilverRancher.Components
 			SiloActivator componentInParent = collider.gameObject.GetComponentInParent<SiloActivator>();
 			if (componentInParent != null && componentInParent.enabled && Time.time > nextEjectTime)
 			{
-				if (storage.model.basicChargeAmount > 0f)
+				if (storage.model.chargeAmount > 0f)
 				{
 					Vector3 normalized = (collider.gameObject.transform.position - transform.position).normalized;
 					GameObject gameObject = SRBehaviour.InstantiateActor(GetRelevantStoredPrefab(), RegionRegistry.RegionSetId.UNSET, transform.position + normalized * 2f, transform.rotation, false);

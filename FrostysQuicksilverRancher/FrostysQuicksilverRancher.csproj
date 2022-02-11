@@ -35,14 +35,14 @@
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SRML\Libs\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\AssemblyPublicizer-Purple\publicized_assemblies\Assembly-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="DOTween">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\DOTween.dll</HintPath>
     </Reference>
-    <Reference Include="MrPurples-Assembly-CSharp_old_publicized">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\publicized_assemblies\MrPurples-Assembly-CSharp_old_publicized.dll</HintPath>
-    </Reference>
-    <Reference Include="SRML_publicized">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\publicized_assemblies\SRML_publicized.dll</HintPath>
+    <Reference Include="SRML">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\AssemblyPublicizer-Purple\publicized_assemblies\SRML.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -267,8 +267,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ElectricStorage.cs" />
-    <Compile Include="Components\ElectricStorageTrigger.cs" />
+    <Compile Include="Components\AcidCanonAttachFashion.cs" />
+    <Compile Include="Components\ElectricStorager.cs" />
+    <Compile Include="Legacy\ElectricStorage.cs" />
+    <Compile Include="Legacy\ElectricStorageTrigger.cs" />
     <Compile Include="Components\ElectricStorageModel.cs" />
     <Compile Include="Components\GravitateTowards.cs" />
     <Compile Include="Components\MochiWarning.cs" />
@@ -278,10 +280,13 @@
     <Compile Include="Other\Configs.cs" />
     <Compile Include="Other\Extensions.cs" />
     <Compile Include="Other\Ids.cs" />
+    <Compile Include="Patches\AttachFashionPatch.cs" />
+    <Compile Include="Patches\GadgetModelPatch.cs" />
     <Compile Include="Patches\onTriggerEnterPatch.cs" />
     <Compile Include="Patches\onTriggerExitPatch.cs" />
+    <Compile Include="Patches\QuicksilverPlortCollector.cs" />
     <Compile Include="Patches\TestPatches.cs" />
-    <Compile Include="Patches\VacPatch.cs" />
+    <Compile Include="Patches\VacPatches.cs" />
     <Compile Include="Patches\ZonePatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -289,7 +294,7 @@
     <EmbeddedResource Include="modinfo.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="quicksilverrancher%28Backup%29" />
+    <EmbeddedResource Include="quicksilverrancher%28Backup%29" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="originalquicksiverrancher" />
@@ -298,7 +303,10 @@
     <Content Include="Notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="quicksilverrancher" />
+    <EmbeddedResource Include="quicksilverrancherold" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="quicksilver_rancher" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

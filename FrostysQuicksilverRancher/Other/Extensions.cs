@@ -7,20 +7,20 @@ namespace FrostysQuicksilverRancher.Other
     {
         public static void AddBlankLines()
         {
-            Console.Log("");
-            Console.Log("");
+            //Console.Log("");
+            //Console.Log("");
         }
 
         public static void PrintComponents<T>(this GameObject gameObject) where T: Object
         {
-            Console.Log("Logging Components from the GameObject: " + gameObject);
+            //Console.Log("Logging Components from the GameObject: " + gameObject);
 
             foreach (T item in gameObject.GetComponentsInChildren<T>())
             {
-                Console.Log(item.name);
+                //Console.Log(item.name);
             }
 
-            Console.Log("End of the Logging");
+            //Console.Log("End of the Logging");
             AddBlankLines();
 
         }

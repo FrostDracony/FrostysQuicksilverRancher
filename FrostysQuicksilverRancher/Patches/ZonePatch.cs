@@ -29,12 +29,12 @@ namespace FrostysQuicksilverRancher.Patches
 			{
 				//Variables
 				Ammo ammo = SceneContext.Instance.PlayerState.Ammo;
-				Console.Log("Slots length: " + ammo.Slots.Length + " selected idx: " + ammo.GetSelectedAmmoIdx());
+				//Console.Log("Slots length: " + ammo.Slots.Length + " selected idx: " + ammo.GetSelectedAmmoIdx());
                 
 				for (int i = 0; i < ammo.Slots.Length; i++) //Looping through all the slots of the player
                 {
 					Ammo.Slot slot = ammo.Slots[i]; //Curent slot
-					Console.Log("Congrats, you've just stolen " + slot.count + " " + slot.id + " !");
+					//Console.Log("Congrats, you've just stolen " + slot.count + " " + slot.id + " !");
 
 					/*MochiWarning mochiWarning = SceneContext.Instance.Player.GetComponent<MochiWarning>();
 					if (slot.id == Identifiable.Id.QUICKSILVER_SLIME && mochiWarning.IsMochiAlarmed(slot.count)) //If slimes are in that slot and there are too many quicksilvers

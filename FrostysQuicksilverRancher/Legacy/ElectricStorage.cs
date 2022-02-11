@@ -27,7 +27,7 @@ namespace FrostysQuicksilverRancher.Components
 		// Token: 0x06000002 RID: 2 RVA: 0x00002178 File Offset: 0x00000378
 		public void UpdateVisuals()
 		{
-			bool flag = model.basicChargeAmount > 0f;
+			bool flag = model.chargeAmount > 0f;
 			if (flag)
 			{
 				bool flag2 = !cooldownFXInstance;
@@ -52,22 +52,22 @@ namespace FrostysQuicksilverRancher.Components
 		// Token: 0x06000003 RID: 3 RVA: 0x00002214 File Offset: 0x00000414
 		public void IncrementBasicCharge(int amount = 1)
 		{
-			model.basicChargeAmount += amount;
-			bool flag = model.basicChargeAmount < 0f;
+			model.chargeAmount += amount;
+			bool flag = model.chargeAmount < 0f;
 			if (flag)
 			{
-				model.basicChargeAmount = 0f;
+				model.chargeAmount = 0f;
 			}
 			UpdateVisuals();
 		}
 
 		public void DecrementBasicCharge(int amount = 1)
         {
-			model.basicChargeAmount -= amount;
-			bool flag = model.basicChargeAmount < 0f;
+			model.chargeAmount -= amount;
+			bool flag = model.chargeAmount < 0f;
 			if (flag)
 			{
-				model.basicChargeAmount = 0f;
+				model.chargeAmount = 0f;
 			}
 			UpdateVisuals();
 		}
@@ -87,9 +87,9 @@ namespace FrostysQuicksilverRancher.Components
 
         public void OnInteract()
         {
-			if (model.basicChargeAmount <= 0)
+			if (model.chargeAmount <= 0)
 				return;
-			Console.Log("Charge: ");
+			//Console.Log("Charge: ");
 			DecrementBasicCharge();
 			Expel(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.VALLEY_AMMO_1));
 			//InstantiateActor(GameContext.Instance.LookupDirector.GetPrefab(Identifiable.Id.VALLEY_AMMO_1), SceneContext.Instance.RegionRegistry.GetCurrentRegionSetId(), transform.Find("Sphere").position + new Vector3(0, 0, -3), Quaternion.identity);
@@ -97,7 +97,7 @@ namespace FrostysQuicksilverRancher.Components
 
         public bool CanInteract()
         {
-			if (model.basicChargeAmount > 0)
+			if (model.chargeAmount > 0)
 				return true;
 			return false;
         }

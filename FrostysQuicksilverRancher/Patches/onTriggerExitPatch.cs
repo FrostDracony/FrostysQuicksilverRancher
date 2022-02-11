@@ -2,6 +2,7 @@
 using HarmonyLib;
 using UnityEngine;
 using FrostysQuicksilverRancher.Other;
+using SRML.Console;
 
 namespace FrostysQuicksilverRancher.Patches
 {
@@ -15,7 +16,7 @@ namespace FrostysQuicksilverRancher.Patches
 			if (flag)
 			{
 				if (Values.VACPACK == VACPACK_ENUMS.AUTOMATIC)
-					Object.FindObjectOfType<VacDisplayChanger>().SetDisplayMode(PlayerState.AmmoMode.NIMBLE_VALLEY);
+					Object.FindObjectOfType<VacDisplayChanger>().SetDisplayMode(PlayerState.AmmoMode.DEFAULT);
 				return false;
 			}
 			else { return true; }
