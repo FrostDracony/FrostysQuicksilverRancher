@@ -284,7 +284,7 @@
     <Compile Include="Patches\GadgetModelPatch.cs" />
     <Compile Include="Patches\onTriggerEnterPatch.cs" />
     <Compile Include="Patches\onTriggerExitPatch.cs" />
-    <Compile Include="Patches\QuicksilverPlortCollector.cs" />
+    <Compile Include="Patches\QuicksilverPlortCollectorPatch.cs" />
     <Compile Include="Patches\TestPatches.cs" />
     <Compile Include="Patches\VacPatches.cs" />
     <Compile Include="Patches\ZonePatch.cs" />
@@ -309,4 +309,9 @@
     <EmbeddedResource Include="quicksilver_rancher" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>del "C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SRML\Mods\FrostysQuicksilverRancher.dll"
+xcopy "C:\Users\baton\source\repos\FrostysQuicksilverRancher\FrostysQuicksilverRancher\bin\Debug\FrostysQuicksilverRancher.dll" "C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SRML\Mods"
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

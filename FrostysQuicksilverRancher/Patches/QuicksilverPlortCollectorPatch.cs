@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FrostysQuicksilverRancher.Patches
 {
-    internal class QuicksilverPlortCollector
+    class QuicksilverPlortCollectorPatch
     {
+
     }
 }
